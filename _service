@@ -1,0 +1,33 @@
+<services>
+    <service name="obs_scm">
+        <param name="filename">inspect</param>
+        <param name="url">https://github.com/kikito/inspect.lua.git</param>
+        <param name="scm">git</param>
+        <param name="revision">master</param>
+        <param name="without-version">enable</param>
+        <param name="versionformat">@PARENT_TAG@</param>
+        <param name="versionrewrite-pattern">v(.*)</param>
+    </service>
+    <service name="perl_regex" mode="buildtime">
+        <param name="regexfile">regex.pl</param>
+        <param name="file">inspect.obsinfo</param>
+        <param name="outfile">inspect.obsnext</param>
+    </service>
+    <service name="lua2pack_generate" mode="buildtime">
+        <param name="rockspec">glob://./inspect.obsnext</param>
+        <param name="template">rock.rockspec</param>
+    </service>
+    <service name="lua2pack_generate" mode="buildtime">
+        <param name="rockspec">glob://./*.rockspec</param>
+        <param name="template">obs.obsinfo</param>
+    </service>
+    <service name="lua2pack_generate" mode="buildtime">
+        <param name="rockspec">glob://./*.rockspec</param>
+        <param name="template">generic.spec</param>
+    </service>
+    <service name="tar" mode="buildtime"/>
+    <service name="recompress" mode="buildtime">
+        <param name="file">*.tar</param>
+        <param name="compression">gz</param>
+    </service>
+</services>
